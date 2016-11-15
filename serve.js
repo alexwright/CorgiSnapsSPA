@@ -29,14 +29,17 @@ var wrap_component = function (component, response) {
     response.write(html);
     response.end();
 };
+var send_error = function (code, message, response) {
+    response.writeHead(code);
+    response.write(message);
+    response.end();
+};
 
 var http = require('http'),
     server = http.createServer(function (request, response) {
         console.log("url: ", request.url);
         if (request.url.substr(0, root.length) != root) {
-            response.writeHead(400);
-            response.write('Request URI is outside of the site root?');
-            response.end();
+            send_error(400, 'URI outside of the site root?', response);
             return;
         }
         var fragment = request.url.substr(root.length),
@@ -45,9 +48,7 @@ var http = require('http'),
                 });
 
         if (matchedRoutes.length === 0) {
-            response.writeHead(404);
-            response.write("URI didn't match any routes");
-            response.end();
+            send_error(404, "URI didn't match any routes", response);
             return;
         }
         var route = matchedRoutes[0];
@@ -57,10 +58,8 @@ var http = require('http'),
             wrap_component(view.getComponent(), response);
         }
         else {
+            send_error(500, "error", response);
             console.error("unsupported route type?", route);
-            response.writeHead(500);
-            response.write(":(");
-            response.end();
         }
     });
 server.listen(8501);
