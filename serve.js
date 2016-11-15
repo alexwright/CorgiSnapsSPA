@@ -57,6 +57,9 @@ var http = require('http'),
             var view = route.view.fromRoute(route, []);
             wrapComponent(view.getComponent(), response);
         }
+        else if (typeof route.view == 'function') {
+            var view = route.view(route, []);
+        }
         else {
             sendError(500, "error", response);
             console.error("unsupported route type?", route);
