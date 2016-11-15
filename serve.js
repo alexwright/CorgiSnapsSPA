@@ -15,7 +15,7 @@ var routes = require('./routes');
 var Page = require('./page.jsx'),
     root = '/';
 
-var wrap_component = function (component, response) {
+var wrapComponent = function (component, response) {
     response.writeHead(200, {
         'Content-Type': 'text/html',
     });
@@ -29,7 +29,7 @@ var wrap_component = function (component, response) {
     response.write(html);
     response.end();
 };
-var send_error = function (code, message, response) {
+var sendError = function (code, message, response) {
     response.writeHead(code);
     response.write(message);
     response.end();
@@ -39,7 +39,7 @@ var http = require('http'),
     server = http.createServer(function (request, response) {
         console.log("url: ", request.url);
         if (request.url.substr(0, root.length) != root) {
-            send_error(400, 'URI outside of the site root?', response);
+            sendError(400, 'URI outside of the site root?', response);
             return;
         }
         var fragment = request.url.substr(root.length),
@@ -48,17 +48,17 @@ var http = require('http'),
                 });
 
         if (matchedRoutes.length === 0) {
-            send_error(404, "URI didn't match any routes", response);
+            sendError(404, "URI didn't match any routes", response);
             return;
         }
         var route = matchedRoutes[0];
         console.log("Route: ", route);
         if (route.view.fromRoute) {
             var view = route.view.fromRoute(route, []);
-            wrap_component(view.getComponent(), response);
+            wrapComponent(view.getComponent(), response);
         }
         else {
-            send_error(500, "error", response);
+            sendError(500, "error", response);
             console.error("unsupported route type?", route);
         }
     });
