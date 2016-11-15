@@ -15,6 +15,21 @@ var routes = require('./routes');
 var Page = require('./page.jsx'),
     root = '/';
 
+var wrap_component = function (component, response) {
+    response.writeHead(200, {
+        'Content-Type': 'text/html',
+    });
+    var html = [
+        '<!doctype html><html><body><div className="app" id="app-main">',
+        ReactDOMServer.renderToString(component),
+        '</div>',
+        '<script>window.$ = {};</script>',
+        '<script src="/static/built.js"></script></body></html>',
+    ].join('');
+    response.write(html);
+    response.end();
+};
+
 var http = require('http'),
     server = http.createServer(function (request, response) {
         console.log("url: ", request.url);
@@ -28,33 +43,23 @@ var http = require('http'),
             matchedRoutes = routes.filter(function (route) {
                     return route.pattern.test(fragment);
                 });
+
         if (matchedRoutes.length === 0) {
             response.writeHead(404);
             response.write("URI didn't match any routes");
             response.end();
             return;
         }
-        else if (matchedRoutes[0].view.fromRoute) {
-            var route = matchedRoutes[0];
+        var route = matchedRoutes[0];
+        console.log("Route: ", route);
+        if (route.view.fromRoute) {
             var view = route.view.fromRoute(route, []);
-
-            response.writeHead(200, {
-                'Content-Type': 'text/html',
-            });
-            /*
-            var page = new Page({
-                appMain: view.getComponent(),
-            });
-            response.write(ReactDOMServer.renderToString(page.render()));
-            */
-            var html = [
-                '<!doctype html><html><body><div className="app" id="app-main">',
-                ReactDOMServer.renderToString(view.getComponent()),
-                '</div>',
-                '<script>window.$ = {};</script>',
-                '<script src="/static/built.js"></script></body></html>',
-            ].join('');
-            response.write(html);
+            wrap_component(view.getComponent(), response);
+        }
+        else {
+            console.error("unsupported route type?", route);
+            response.writeHead(500);
+            response.write(":(");
             response.end();
         }
     });
