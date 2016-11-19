@@ -11,9 +11,6 @@ require("babel-register")({
 var React = require('react'),
     ReactDOM = require('react-dom'),
     ReactDOMServer = require('react-dom/server');
-var routes = require('./routes');
-var Page = require('./page.jsx'),
-    root = '/';
 
 var wrapComponent = function (component, response) {
     response.writeHead(200, {
@@ -35,6 +32,11 @@ var sendError = function (code, message, response) {
     response.end();
 };
 
+// throw `fetch()` on the globals for backbone.fetch to find
+global.fetch = require('node-fetch');
+
+var routes = require('./routes');
+    root = '/';
 var http = require('http'),
     server = http.createServer(function (request, response) {
         console.log("url: ", request.url);
