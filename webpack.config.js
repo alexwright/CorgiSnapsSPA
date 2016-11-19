@@ -43,6 +43,12 @@ module.exports = {
         'jquery': '$',
     },
     plugins: [
+        new webpack.DefinePlugin({
+          'process.env': {
+            NODE_ENV: JSON.stringify('production'),
+          }
+        }),
+        new webpack.optimize.UglifyJsPlugin(),
         //new webpack.IgnorePlugin(/react/),
         //new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.bundle.js")
     ]
