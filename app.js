@@ -1,4 +1,4 @@
-var Backbone = require('backbone');
+var Backbone = require('./mybone');
 
 var Router = require('./router'),
     router = new Router();
@@ -6,24 +6,8 @@ var Router = require('./router'),
 (function () {
     console.log("go time now?");
     Backbone.history.start({pushState: true});
+
+    window.nav = function (frag) {
+        Backbone.history.navigate(frag, { trigger: true });
+    };
 })();
-/*
-var Router = Backbone.Router.extend({
-        routes: {
-            'about': 'about',
-            'hello': 'hello',
-        },
-
-        about: function () {
-            console.log('So show about?');
-        },
-        hello: function () {
-            console.log('HI!');
-        },
-    });
-module.exports = {
-    'router': new Router(),
-    'history':  Backbone.history,
-};
-*/
-

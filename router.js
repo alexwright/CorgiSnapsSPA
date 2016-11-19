@@ -1,4 +1,4 @@
-var Backbone = require('backbone'),
+var Backbone = require('./mybone'),
     ReactDom = require('react-dom');
 
 var routes = require('./routes');
@@ -14,7 +14,9 @@ var SnapsRouter = Backbone.Router.extend({
             });
         },
         launchRoute: function (route, urlArgs) {
-            route.view(route, urlArgs).then(this.renderComponent.bind(this));
+            route.view(route, urlArgs)
+                .then(this.renderComponent.bind(this))
+                .catch((error) => alert(error.message));
         },
         getContainer: function () {
             var container = document.getElementById("app-main");
