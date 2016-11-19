@@ -4,8 +4,11 @@ var SnapThumbComponent = require('./snap_thumb.jsx');
 
 var SnapListComponent = React.createClass({
   getThumbs: function () {
-    return this.props.snaps.map(function (view) {
-      return view.getComponent();
+    return this.props.collection.map(function (model) {
+      return React.createElement(SnapThumbComponent, {
+        key: 'thumb-' + model.get('id'),
+        model: model,
+      });
     });
   },
   render: function () {
