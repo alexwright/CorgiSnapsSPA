@@ -3,6 +3,11 @@ var SnapListView = require('./views/snap_list'),
 
 var routes = [
         {
+            name: 'index',
+            view: SnapListView,
+            pattern: /^\/?$/,
+        },
+        {
             name: 'snaps',
             view: SnapListView,
             pattern: /^list\/?$/,
