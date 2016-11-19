@@ -2,6 +2,7 @@ var Backbone = require('./mybone'),
     ReactDom = require('react-dom');
 
 var routes = require('./routes');
+var delegate = require('./delegate');
 
 var SnapsRouter = Backbone.Router.extend({
         initialize: function () {
@@ -12,6 +13,15 @@ var SnapsRouter = Backbone.Router.extend({
                     this.launchRoute(route, urlArgs);
                 });
             });
+
+            var container = this.getContainer(),
+                router = this;
+            delegate(container, 'click', 'a[data-href]', function (ev, target) {
+                ev.preventDefault();
+                if (target.dataset.href) {
+                    this.navigateTo(target.dataset.href);
+                }
+            }.bind(this));
         },
         launchRoute: function (route, urlArgs) {
             route.view(route, urlArgs)
@@ -27,6 +37,9 @@ var SnapsRouter = Backbone.Router.extend({
         },
         renderComponent: function (component) {
             ReactDom.render(component, this.getContainer());
+        },
+        navigateTo: function (fragment) {
+            this.navigate(fragment, { trigger: true });
         },
     });
 

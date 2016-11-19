@@ -10,7 +10,7 @@ var SnapThumbComponent = React.createClass({
   render: function () {
     return (
       <div className="snap-thumb">
-        <a href={this.getDetailUrl()}><img width="200" src={this.getImgUrl()} /></a>
+        <a href={this.getDetailUrl()} data-href={this.getDetailUrl()}><img width="200" src={this.getImgUrl()} /></a>
       </div>
     );
   },
