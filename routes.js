@@ -1,4 +1,5 @@
-var SnapListView = require('./views/snap_list');
+var SnapListView = require('./views/snap_list'),
+    SnapDetailView = require('./views/snap_detail');
 
 var routes = [
         {
@@ -8,7 +9,7 @@ var routes = [
         },
         {
             name: 'snap-detail',
-            view: null,
+            view: SnapDetailView,
             pattern: /^snap\/(\d+)\/?$/,
         },
     ];
