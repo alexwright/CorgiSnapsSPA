@@ -21,6 +21,8 @@ var wrapComponent = function (component, response) {
         ReactDOMServer.renderToString(component),
         '</div>',
         '<script>window.$ = {};</script>',
+        '<script src="https://unpkg.com/react@15/dist/react.js"></script>',
+        '<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>',
         '<script src="/static/built.js"></script></body></html>',
     ].join('');
     response.write(html);
