@@ -2,7 +2,7 @@ var React = require('react');
 
 var SnapThumbComponent = React.createClass({
   getImgUrl: function () {
-    return this.props.model.get('image');
+    return this.props.model.get('thumb');
   },
   getDetailUrl: function () {
     return this.props.model.getDetailUrl();
