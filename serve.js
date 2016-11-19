@@ -51,14 +51,15 @@ var http = require('http'),
             sendError(404, "URI didn't match any routes", response);
             return;
         }
-        var route = matchedRoutes[0];
-        console.log("Route: ", route);
+        var route = matchedRoutes[0],
+            urlArgs = route.pattern.exec(fragment).slice(1);
         if (route.view.fromRoute) {
-            var view = route.view.fromRoute(route, []);
+            var view = route.view.fromRoute(route, urlArgs);
             wrapComponent(view.getComponent(), response);
         }
         else if (typeof route.view == 'function') {
-            var view = route.view(route, []);
+            var view = route.view(route, urlArgs);
+            wrapComponent(view, response);
         }
         else {
             sendError(500, "error", response);
