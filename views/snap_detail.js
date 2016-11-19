@@ -3,9 +3,19 @@ var React = require('react'),
     SnapDetailComponent = require('../components/snap_detail.jsx');
 
 var SnapDetailView = function (route, urlArgs) {
-    return React.createElement(SnapDetailComponent, {
-        model: Snaps.get(urlArgs[0]),
-    });
+  var snapId = urlArgs[0];
+  return Snaps.ready().then(function () {
+    if (Snaps.get(snapId)) {
+      return React.createElement(SnapDetailComponent, {
+        model: Snaps.get(snapId),
+      });
+    }
+    else {
+      var error = Error("Snap not found");
+      error.code = 404;
+      throw error;
+    }
+  });
 };
 
 module.exports = SnapDetailView;

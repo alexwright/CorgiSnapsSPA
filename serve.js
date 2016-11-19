@@ -61,7 +61,8 @@ var http = require('http'),
         }
         else if (typeof route.view == 'function') {
             route.view(route, urlArgs)
-                .then((component) => wrapComponent(component, response));
+                .then((component) => wrapComponent(component, response))
+                .catch((error) => sendError(error.code, error.message, response));
         }
         else {
             sendError(500, "error", response);
