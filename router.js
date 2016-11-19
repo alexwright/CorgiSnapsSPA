@@ -14,8 +14,7 @@ var SnapsRouter = Backbone.Router.extend({
             });
         },
         launchRoute: function (route, urlArgs) {
-            var view = route.view(route, urlArgs);
-            ReactDom.render(view, this.getContainer());
+            route.view(route, urlArgs).then(this.renderComponent.bind(this));
         },
         getContainer: function () {
             var container = document.getElementById("app-main");
@@ -23,6 +22,9 @@ var SnapsRouter = Backbone.Router.extend({
                 return container;
             }
             return document.body;
+        },
+        renderComponent: function (component) {
+            ReactDom.render(component, this.getContainer());
         },
     });
 
