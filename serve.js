@@ -60,8 +60,8 @@ var http = require('http'),
             wrapComponent(view.getComponent(), response);
         }
         else if (typeof route.view == 'function') {
-            var view = route.view(route, urlArgs);
-            wrapComponent(view, response);
+            route.view(route, urlArgs)
+                .then((component) => wrapComponent(component, response));
         }
         else {
             sendError(500, "error", response);

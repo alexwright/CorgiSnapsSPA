@@ -3,8 +3,11 @@ var React = require('react'),
     SnapListComponent = require('../components/snap_list.jsx')
 
 var SnapListView = function (route, urlArgs) {
-    return React.createElement(SnapListComponent, {
+    var component = React.createElement(SnapListComponent, {
         collection: Snaps,
+    });
+    return new Promise(function (resolve, reject) {
+        Snaps.ready().then((collection) => resolve(component));
     });
 }
 module.exports = SnapListView;
