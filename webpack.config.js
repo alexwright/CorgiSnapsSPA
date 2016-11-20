@@ -1,4 +1,5 @@
 var webpack = require("webpack");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
     /*
     entry: {
@@ -35,6 +36,11 @@ module.exports = {
                     ],
                 },
             },
+            {
+                test: /\.less$/,
+                //loader: 'style-loader!css-loader!less-loader?strictMath&noIeCompat',
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader"),
+            },
         ]
     },
     externals: {
@@ -43,6 +49,7 @@ module.exports = {
         'jquery': '$',
     },
     plugins: [
+        new ExtractTextPlugin("[name].css"),
         new webpack.DefinePlugin({
           'process.env': {
             NODE_ENV: JSON.stringify('production'),

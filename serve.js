@@ -17,7 +17,12 @@ var wrapComponent = function (component, response) {
         'Content-Type': 'text/html',
     });
     var html = [
-        '<!doctype html><html><body><div className="app" id="app-main">',
+        '<!doctype html><html>',
+        '<head>',
+        '<title>Corgi Snaps!</title>',
+        '<link href="/static/main.css" media="all" rel="stylesheet" />',
+        '</head>',
+        '<body><div class="app" id="app-main">',
         ReactDOMServer.renderToString(component),
         '</div>',
         '<script>window.$ = {};</script>',
