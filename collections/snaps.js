@@ -7,6 +7,12 @@ var Snaps = Backbone.Collection.extend({
         url: function () {
             return 'https://corgisnaps.com/api/snaps/';
         },
+        parse: function (data) {
+            if ('results' in data) {
+                return data.results;
+            }
+            return data;
+        },
     }),
     snaps = new Snaps();
 
