@@ -16,6 +16,12 @@ var wrapComponent = function (component, response) {
     response.writeHead(200, {
         'Content-Type': 'text/html',
     });
+    try {
+        var componentHtml = ReactDOMServer.renderToString(component);
+    }
+    catch (e) {
+        console.error(e);
+    }
     var html = [
         '<!doctype html><html>',
         '<head>',
@@ -23,7 +29,7 @@ var wrapComponent = function (component, response) {
         '<link href="/static/main.css" media="all" rel="stylesheet" />',
         '</head>',
         '<body><div class="app" id="app-main">',
-        ReactDOMServer.renderToString(component),
+        componentHtml,
         '</div>',
         '<script>window.$ = {};</script>',
         '<script src="https://unpkg.com/react@15/dist/react.js"></script>',
