@@ -73,7 +73,7 @@ var http = require('http'),
             wrapComponent(view.getComponent(), response);
         }
         else if (typeof route.view == 'function') {
-            route.view(route, urlArgs)
+            route.view(null, route, urlArgs)
                 .then((component) => wrapComponent(component, response))
                 .catch((error) => sendError(error.code, error.message, response));
         }

@@ -7,6 +7,9 @@ var delegate = require('./delegate');
 var SnapsRouter = Backbone.Router.extend({
         initialize: function () {
             var router = this;
+            if (typeof window !== 'undefined') {
+                window.router = this;
+            }
             routes.forEach(function (route) {
                 router.route(route.pattern, function (urlArgs) {
                     console.log("Routing: ", route, urlArgs);
@@ -24,7 +27,7 @@ var SnapsRouter = Backbone.Router.extend({
             }.bind(this));
         },
         launchRoute: function (route, urlArgs) {
-            route.view(route, urlArgs)
+            route.view(this, route, urlArgs)
                 .then(this.renderComponent.bind(this))
                 .catch((error) => alert(error.message));
         },

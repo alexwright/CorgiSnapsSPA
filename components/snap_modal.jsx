@@ -7,6 +7,8 @@ var SnapModal = React.createClass({
       'modal',
     ].join(' ');
   },
+  onCloseClick: function () {
+  },
   render: function () {
     return (
       <div className={this.classNames()}>
