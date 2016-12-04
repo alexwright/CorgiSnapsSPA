@@ -11,7 +11,7 @@ var SnapModal = React.createClass({
     return (
       <div className={this.classNames()}>
         <div className="modal-image-wrapper">
-          <img src={this.props.model.get('image')} />
+          <img src={this.props.model.get('large')} />
         </div>
       </div>
     );
